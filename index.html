@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0b0f19" />
+<meta name="description" content="Celebración interactiva de 11 años de amistad: dos tulipanes que crecen entrelazados mientras el tiempo recorre once años." />
+<title>11 años · creciendo a tu lado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="bg__grad"></div>
+  <div class="bg__aura bg__aura--gold"></div>
+  <div class="bg__aura bg__aura--blue"></div>
+  <div class="bg__noise"></div>
+  <div class="bg__vignette"></div>
+</div>
+
+<canvas id="sparkles" aria-hidden="true"></canvas>
+
+<header class="hud">
+  <!-- <p class="hud__eyebrow">Once años de amistad</p> -->
+  <h1 class="hud__title">11 años</h1>
+  <div class="hud__stack">
+    <div class="counter" id="counter" role="status" aria-live="polite" aria-label="Año 1 de 11">
+      <span class="counter__label">Año</span>
+      <span class="counter__num" id="yearNum">1</span>
+      <span class="counter__total">/ ♾️</span>
+    </div>
+    <div class="timeline" id="timeline" aria-hidden="true"></div>
+    <div class="progress" aria-hidden="true"><span id="progressFill"></span></div>
+  </div>
+</header>
+
+<main class="stage">
+  <svg class="garden" id="garden" viewBox="0 148 400 550" preserveAspectRatio="xMidYMax meet" role="img"
+       aria-label="Dos tulipanes, uno amarillo y uno azul, con tallos entrelazados como un abrazo">
+    <defs>
+      <path id="geoYellow" d="M 178 655 C 186 632 192 602 200 578 C 209 553 207 508 200 468 C 195 428 150 330 152 214"/>
+      <path id="geoBlue" d="M 222 655 C 214 632 208 602 200 578 C 191 553 193 508 200 468 C 205 428 250 330 248 214"/>
+
+      <linearGradient id="gStemYellow" gradientUnits="userSpaceOnUse" x1="200" y1="690" x2="150" y2="180">
+        <stop offset="0" stop-color="#3c7534"/>
+        <stop offset=".45" stop-color="#63a84c"/>
+        <stop offset="1" stop-color="#96d167"/>
+      </linearGradient>
+      <linearGradient id="gStemBlue" gradientUnits="userSpaceOnUse" x1="200" y1="690" x2="252" y2="180">
+        <stop offset="0" stop-color="#2c655d"/>
+        <stop offset=".45" stop-color="#3f9585"/>
+        <stop offset="1" stop-color="#6ec9b8"/>
+      </linearGradient>
+      <linearGradient id="gLeafYellow" gradientUnits="userSpaceOnUse" x1="-10" y1="10" x2="52" y2="-50">
+        <stop offset="0" stop-color="#4f8f3f"/>
+        <stop offset="1" stop-color="#8ccb5f"/>
+      </linearGradient>
+      <linearGradient id="gLeafBlue" gradientUnits="userSpaceOnUse" x1="-10" y1="10" x2="52" y2="-50">
+        <stop offset="0" stop-color="#2f7a70"/>
+        <stop offset="1" stop-color="#62c6b3"/>
+      </linearGradient>
+
+      <linearGradient id="gGold" x1=".12" y1="0" x2=".82" y2="1">
+        <stop offset="0" stop-color="#fff3c2"/>
+        <stop offset=".38" stop-color="#f9d264"/>
+        <stop offset=".78" stop-color="#eeab35"/>
+        <stop offset="1" stop-color="#cf8524"/>
+      </linearGradient>
+      <linearGradient id="gBlue" x1=".12" y1="0" x2=".82" y2="1">
+        <stop offset="0" stop-color="#e2f4ff"/>
+        <stop offset=".38" stop-color="#86c7f2"/>
+        <stop offset=".78" stop-color="#4a92cf"/>
+        <stop offset="1" stop-color="#2a5f9e"/>
+      </linearGradient>
+      <linearGradient id="gTulipShade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+        <stop offset=".55" stop-color="#1a1206" stop-opacity=".06"/>
+        <stop offset="1" stop-color="#140d04" stop-opacity=".42"/>
+      </linearGradient>
+
+      <radialGradient id="gGlowGold">
+        <stop offset="0" stop-color="#ffe6a6" stop-opacity=".85"/>
+        <stop offset=".45" stop-color="#f6c453" stop-opacity=".28"/>
+        <stop offset="1" stop-color="#f6c453" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="gGlowBlue">
+        <stop offset="0" stop-color="#d3eeff" stop-opacity=".85"/>
+        <stop offset=".45" stop-color="#6ec6ff" stop-opacity=".28"/>
+        <stop offset="1" stop-color="#6ec6ff" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="gGround">
+        <stop offset="0" stop-color="#9fd0ff" stop-opacity=".16"/>
+        <stop offset=".6" stop-color="#7ba7d8" stop-opacity=".05"/>
+        <stop offset="1" stop-color="#7ba7d8" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <g aria-hidden="true">
+      <ellipse cx="200" cy="662" rx="134" ry="22" fill="url(#gGround)"/>
+      <ellipse cx="200" cy="661" rx="44" ry="8" fill="rgba(2,5,12,.45)"/>
+      <ellipse cx="200" cy="658" rx="26" ry="4" fill="rgba(246,196,83,.10)"/>
+    </g>
+
+    <g>
+      <use href="#geoBlue" class="stem stem--blue" data-stem="blue"/>
+      <use href="#geoBlue" class="stem-hl stem-hl--blue" data-stem="blue"/>
+      <use href="#geoYellow" class="stem stem--yellow" data-stem="yellow"/>
+      <use href="#geoYellow" class="stem-hl stem-hl--yellow" data-stem="yellow"/>
+    </g>
+
+    <g id="crossings"></g>
+
+    <g>
+      <g class="leaf leaf--yellow" id="leafY1">
+        <path class="leaf-shape" d="M 0 0 C 22 -6 42 -22 50 -48 C 32 -40 12 -22 0 0 Z"/>
+        <path class="leaf-rib" d="M 3 -3 C 18 -13 34 -28 46 -44"/>
+      </g>
+      <g class="leaf leaf--blue" id="leafB1">
+        <path class="leaf-shape" d="M 0 0 C 22 -6 42 -22 50 -48 C 32 -40 12 -22 0 0 Z"/>
+        <path class="leaf-rib" d="M 3 -3 C 18 -13 34 -28 46 -44"/>
+      </g>
+      <g class="leaf leaf--yellow" id="leafY2">
+        <path class="leaf-shape" d="M 0 0 C 22 -6 42 -22 50 -48 C 32 -40 12 -22 0 0 Z"/>
+        <path class="leaf-rib" d="M 3 -3 C 18 -13 34 -28 46 -44"/>
+      </g>
+      <g class="leaf leaf--blue" id="leafB2">
+        <path class="leaf-shape" d="M 0 0 C 22 -6 42 -22 50 -48 C 32 -40 12 -22 0 0 Z"/>
+        <path class="leaf-rib" d="M 3 -3 C 18 -13 34 -28 46 -44"/>
+      </g>
+    </g>
+
+    <g class="bloom bloom--yellow" id="bloomYellow" transform="translate(152 214)" tabindex="0" role="button"
+       aria-label="Tulipán amarillo: alegría, amistad incondicional y luz"
+       data-tip="Tulipán Amarillo: Alegría, amistad incondicional y luz.">
+      <ellipse class="bloom-glow" cx="0" cy="-26" rx="56" ry="56" fill="url(#gGlowGold)" opacity="0"/>
+      <path class="tulip" fill="url(#gGold)" d="M -21 13 C -27 -4 -26 -28 -17 -44 C -12 -36 -8 -27 -6 -22 C -4 -36 -2 -46 0 -54 C 2 -46 4 -36 6 -22 C 8 -27 12 -36 17 -44 C 26 -28 27 -4 21 13 C 10 19 -10 19 -21 13 Z"/>
+      <path class="tulip-shade" fill="url(#gTulipShade)" d="M -21 13 C -27 -4 -26 -28 -17 -44 C -12 -36 -8 -27 -6 -22 C -4 -36 -2 -46 0 -54 C 2 -46 4 -36 6 -22 C 8 -27 12 -36 17 -44 C 26 -28 27 -4 21 13 C 10 19 -10 19 -21 13 Z"/>
+      <path class="tulip-line" d="M -12 -38 C -9 -30 -8 -20 -8 -13"/>
+      <circle class="bloom-hit" cx="0" cy="-26" r="40"/>
+    </g>
+
+    <g class="bloom bloom--blue" id="bloomBlue" transform="translate(248 214)" tabindex="0" role="button"
+       aria-label="Tulipán azul: lealtad, confianza y profundidad"
+       data-tip="Tulipán Azul: Lealtad, confianza y profundidad.">
+      <ellipse class="bloom-glow" cx="0" cy="-26" rx="56" ry="56" fill="url(#gGlowBlue)" opacity="0"/>
+      <path class="tulip" fill="url(#gBlue)" d="M -21 13 C -27 -4 -26 -28 -17 -44 C -12 -36 -8 -27 -6 -22 C -4 -36 -2 -46 0 -54 C 2 -46 4 -36 6 -22 C 8 -27 12 -36 17 -44 C 26 -28 27 -4 21 13 C 10 19 -10 19 -21 13 Z"/>
+      <path class="tulip-shade" fill="url(#gTulipShade)" d="M -21 13 C -27 -4 -26 -28 -17 -44 C -12 -36 -8 -27 -6 -22 C -4 -36 -2 -46 0 -54 C 2 -46 4 -36 6 -22 C 8 -27 12 -36 17 -44 C 26 -28 27 -4 21 13 C 10 19 -10 19 -21 13 Z"/>
+      <path class="tulip-line" d="M -12 -38 C -9 -30 -8 -20 -8 -13"/>
+      <circle class="bloom-hit" cx="0" cy="-26" r="40"/>
+    </g>
+  </svg>
+
+  <section class="card" id="card" aria-hidden="true">
+    <p class="card__kicker">Hace 11 años te cai mal jaja</p>
+    <h2 class="card__title">¡11 años creciendo a tu lado!</h2>
+    <p class="card__sub">Gracias por la alegría, las aventuras, la anecdotas, el apoyo y las risas que nunca faltan. Por este, y por todos los años que nos falta seguir creciendo, aprendiendo y mejorando juntas.</p>
+    <p class="card__sub">Te amo 💙💛</p>
+    <p class="card__hint">Pasa el mouse sobre cada tulipán (si quieres)</p>
+    <div class="card__actions">
+      <button class="replay" id="replay" type="button">
+        <span class="replay__dot" aria-hidden="true"></span>
+        Volver a vivirlo
+      </button>
+    </div>
+  </section>
+</main>
+
+<div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true"><p id="tooltipText"></p></div>
+
+<noscript>
+  <style>
+    #card{opacity:1;filter:none;transform:none;pointer-events:auto}
+    .garden{opacity:1}
+  </style>
+</noscript>
+
+<script src="scripts.js" defer></script>
+</body>
+</html>
